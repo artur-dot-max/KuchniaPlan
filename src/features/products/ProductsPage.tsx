@@ -281,61 +281,67 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
           </div>
 
           {activeDictionary === 'units' ? (
-            <article className="panel">
-              <div className="panel-header">
-                <h2>Jednostki</h2>
-                <span className="status-pill status-pill--info">{catalog.units.length}</span>
-              </div>
-              <div className="dictionary-list" aria-label="Zdefiniowane jednostki">
-                {catalog.units.map((unit) => (
-                  <div className="dictionary-row" key={unit.id}>
-                    <strong>{unit.symbol}</strong>
-                    <span>
-                      {unit.name}, {unitKindLabels[unit.kind]}
-                    </span>
-                  </div>
-                ))}
-                {catalog.units.length === 0 ? (
-                  <p className="empty-state">Dodaj jednostki raz dla całej organizacji.</p>
-                ) : null}
-              </div>
-              <form className="form-stack compact-form" onSubmit={handleAddUnit}>
-                <label>
-                  Nazwa
-                  <input
-                    onChange={(event) => setUnitName(event.target.value)}
-                    placeholder="Kilogram"
-                    required
-                    value={unitName}
-                  />
-                </label>
-                <label>
-                  Symbol
-                  <input
-                    onChange={(event) => setUnitSymbol(event.target.value)}
-                    placeholder="kg"
-                    required
-                    value={unitSymbol}
-                  />
-                </label>
-                <label>
-                  Typ
-                  <select
-                    onChange={(event) => setUnitKind(event.target.value as UnitKind)}
-                    value={unitKind}
-                  >
-                    {Object.entries(unitKindLabels).map(([value, label]) => (
-                      <option key={value} value={value}>
-                        {label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <button className="primary-action" disabled={catalog.isLoading} type="submit">
-                  Dodaj jednostkę
-                </button>
-              </form>
-            </article>
+            <div className="dictionary-grid">
+              <article className="panel">
+                <div className="panel-header">
+                  <h2>Lista jednostek</h2>
+                  <span className="status-pill status-pill--info">{catalog.units.length}</span>
+                </div>
+                <div className="dictionary-list" aria-label="Lista jednostek">
+                  {catalog.units.map((unit) => (
+                    <div className="dictionary-row" key={unit.id}>
+                      <strong>{unit.symbol}</strong>
+                      <span>
+                        {unit.name}, {unitKindLabels[unit.kind]}
+                      </span>
+                    </div>
+                  ))}
+                  {catalog.units.length === 0 ? (
+                    <p className="empty-state">Dodaj jednostki raz dla całej organizacji.</p>
+                  ) : null}
+                </div>
+              </article>
+
+              <article className="panel">
+                <h2>Dodaj jednostkę</h2>
+                <form className="form-stack compact-form" onSubmit={handleAddUnit}>
+                  <label>
+                    Nazwa
+                    <input
+                      onChange={(event) => setUnitName(event.target.value)}
+                      placeholder="Kilogram"
+                      required
+                      value={unitName}
+                    />
+                  </label>
+                  <label>
+                    Symbol
+                    <input
+                      onChange={(event) => setUnitSymbol(event.target.value)}
+                      placeholder="kg"
+                      required
+                      value={unitSymbol}
+                    />
+                  </label>
+                  <label>
+                    Typ
+                    <select
+                      onChange={(event) => setUnitKind(event.target.value as UnitKind)}
+                      value={unitKind}
+                    >
+                      {Object.entries(unitKindLabels).map(([value, label]) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <button className="primary-action" disabled={catalog.isLoading} type="submit">
+                    Dodaj jednostkę
+                  </button>
+                </form>
+              </article>
+            </div>
           ) : (
             <div className="dictionary-grid">
               <article className="panel">
