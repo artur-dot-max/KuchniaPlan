@@ -17,6 +17,7 @@ const unitKindLabels: Record<UnitKind, string> = {
 
 export function ProductsPage({ organizationId }: ProductsPageProps) {
   const catalog = useProductsCatalog(organizationId)
+  const [activePanel, setActivePanel] = useState<'product' | 'dictionaries'>('product')
   const [productName, setProductName] = useState('')
   const [category, setCategory] = useState('Surowce')
   const [baseUnitId, setBaseUnitId] = useState('')
@@ -92,10 +93,32 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
           <p className="eyebrow">Etap 3</p>
           <h1 id="products-heading">Produkty</h1>
           <p className="page-lead">
-            Katalog surowców, jednostek, dostawców i podstawowych strat technologicznych.
+            Katalog surowców i podstawowych strat technologicznych. Jednostki oraz dostawcy są
+            wspólnymi słownikami organizacji.
           </p>
         </div>
       </section>
+
+      <div className="section-tabs" role="tablist" aria-label="Widok produktów">
+        <button
+          aria-selected={activePanel === 'product'}
+          className={activePanel === 'product' ? 'tab-button active' : 'tab-button'}
+          onClick={() => setActivePanel('product')}
+          role="tab"
+          type="button"
+        >
+          Produkty
+        </button>
+        <button
+          aria-selected={activePanel === 'dictionaries'}
+          className={activePanel === 'dictionaries' ? 'tab-button active' : 'tab-button'}
+          onClick={() => setActivePanel('dictionaries')}
+          role="tab"
+          type="button"
+        >
+          Słowniki
+        </button>
+      </div>
 
       <section className="content-grid content-grid--wide">
         <article className="panel">
@@ -135,65 +158,7 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
           </div>
         </article>
 
-        <aside className="side-stack">
-          <article className="panel">
-            <h2>Dodaj jednostkę</h2>
-            <form className="form-stack compact-form" onSubmit={handleAddUnit}>
-              <label>
-                Nazwa
-                <input
-                  onChange={(event) => setUnitName(event.target.value)}
-                  placeholder="Kilogram"
-                  required
-                  value={unitName}
-                />
-              </label>
-              <label>
-                Symbol
-                <input
-                  onChange={(event) => setUnitSymbol(event.target.value)}
-                  placeholder="kg"
-                  required
-                  value={unitSymbol}
-                />
-              </label>
-              <label>
-                Typ
-                <select
-                  onChange={(event) => setUnitKind(event.target.value as UnitKind)}
-                  value={unitKind}
-                >
-                  {Object.entries(unitKindLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <button className="primary-action" disabled={catalog.isLoading} type="submit">
-                Dodaj jednostkę
-              </button>
-            </form>
-          </article>
-
-          <article className="panel">
-            <h2>Dodaj dostawcę</h2>
-            <form className="form-stack compact-form" onSubmit={handleAddSupplier}>
-              <label>
-                Nazwa
-                <input
-                  onChange={(event) => setSupplierName(event.target.value)}
-                  placeholder="Dostawca warzyw"
-                  required
-                  value={supplierName}
-                />
-              </label>
-              <button className="primary-action" disabled={catalog.isLoading} type="submit">
-                Dodaj dostawcę
-              </button>
-            </form>
-          </article>
-
+        {activePanel === 'product' ? (
           <article className="panel">
             <h2>Dodaj produkt</h2>
             <form className="form-stack compact-form" onSubmit={handleAddProduct}>
@@ -288,7 +253,97 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
               </button>
             </form>
           </article>
-        </aside>
+        ) : (
+          <aside className="side-stack">
+            <article className="panel">
+              <div className="panel-header">
+                <h2>Jednostki</h2>
+                <span className="status-pill status-pill--info">{catalog.units.length}</span>
+              </div>
+              <div className="dictionary-list" aria-label="Zdefiniowane jednostki">
+                {catalog.units.map((unit) => (
+                  <div className="dictionary-row" key={unit.id}>
+                    <strong>{unit.symbol}</strong>
+                    <span>
+                      {unit.name}, {unitKindLabels[unit.kind]}
+                    </span>
+                  </div>
+                ))}
+                {catalog.units.length === 0 ? (
+                  <p className="empty-state">Dodaj jednostki raz dla całej organizacji.</p>
+                ) : null}
+              </div>
+              <form className="form-stack compact-form" onSubmit={handleAddUnit}>
+                <label>
+                  Nazwa
+                  <input
+                    onChange={(event) => setUnitName(event.target.value)}
+                    placeholder="Kilogram"
+                    required
+                    value={unitName}
+                  />
+                </label>
+                <label>
+                  Symbol
+                  <input
+                    onChange={(event) => setUnitSymbol(event.target.value)}
+                    placeholder="kg"
+                    required
+                    value={unitSymbol}
+                  />
+                </label>
+                <label>
+                  Typ
+                  <select
+                    onChange={(event) => setUnitKind(event.target.value as UnitKind)}
+                    value={unitKind}
+                  >
+                    {Object.entries(unitKindLabels).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button className="primary-action" disabled={catalog.isLoading} type="submit">
+                  Dodaj jednostkę
+                </button>
+              </form>
+            </article>
+
+            <article className="panel">
+              <div className="panel-header">
+                <h2>Dostawcy</h2>
+                <span className="status-pill status-pill--info">{catalog.suppliers.length}</span>
+              </div>
+              <div className="dictionary-list" aria-label="Zdefiniowani dostawcy">
+                {catalog.suppliers.map((supplier) => (
+                  <div className="dictionary-row" key={supplier.id}>
+                    <strong>{supplier.name}</strong>
+                    <span>Dostępny w kartach produktów</span>
+                  </div>
+                ))}
+                {catalog.suppliers.length === 0 ? (
+                  <p className="empty-state">Dostawców dodajesz tylko wtedy, gdy są potrzebni.</p>
+                ) : null}
+              </div>
+              <form className="form-stack compact-form" onSubmit={handleAddSupplier}>
+                <label>
+                  Nazwa
+                  <input
+                    onChange={(event) => setSupplierName(event.target.value)}
+                    placeholder="Dostawca warzyw"
+                    required
+                    value={supplierName}
+                  />
+                </label>
+                <button className="primary-action" disabled={catalog.isLoading} type="submit">
+                  Dodaj dostawcę
+                </button>
+              </form>
+            </article>
+          </aside>
+        )}
       </section>
     </div>
   )

@@ -315,6 +315,29 @@ h2 {
   grid-template-columns: minmax(0, 1fr) 360px;
 }
 
+.section-tabs {
+  display: inline-flex;
+  gap: 6px;
+  padding: 0 32px;
+}
+
+.tab-button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 0 16px;
+}
+
+.tab-button.active,
+.tab-button:hover {
+  background: var(--heading);
+  color: #ffffff;
+}
+
 .side-stack {
   display: grid;
   gap: 16px;
@@ -431,6 +454,28 @@ h2 {
   padding: 18px 12px;
 }
 
+.dictionary-list {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dictionary-row {
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 2px;
+  min-height: 54px;
+  padding: 10px 12px;
+}
+
+.dictionary-row:first-child {
+  border-top: 0;
+}
+
+.dictionary-row span {
+  color: var(--text-muted);
+}
+
 .work-row {
   align-items: center;
   border: 1px solid var(--border);
@@ -490,6 +535,10 @@ meter {
   .metrics-grid,
   .content-grid {
     grid-template-columns: 1fr;
+    padding-inline: 20px;
+  }
+
+  .section-tabs {
     padding-inline: 20px;
   }
 
