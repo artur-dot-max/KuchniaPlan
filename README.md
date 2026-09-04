@@ -63,3 +63,7 @@ polityki RLS oparte na `auth.uid()` oraz aktywnym członkostwie w organizacji.
 Po ustawieniu `.env.local` i zastosowaniu migracji aplikacja pokazuje ekran
 logowania. Po pierwszym logowaniu użytkownik może utworzyć organizację i
 lokalizację, a system zapisze go jako właściciela organizacji.
+
+Migracja `20260904214500_create_initial_workspace_rpc.sql` dodaje funkcję RPC,
+która tworzy pierwszą organizację, członkostwo właściciela i lokalizację w jednej
+transakcji. Jest potrzebna do poprawnego startu przy włączonym RLS.

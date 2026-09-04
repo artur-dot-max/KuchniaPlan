@@ -17,6 +17,11 @@ type OrganizationContextState = {
   setSelectedOrganizationId: (id: string) => void
 }
 
+type InitialWorkspaceResult = {
+  location_id: string
+  organization_id: string
+}
+
 const mapOrganization = (row: Record<string, unknown>): Organization => ({
   archivedAt: row.archived_at as string | null,
   createdAt: row.created_at as string,
@@ -50,6 +55,14 @@ const mapMembership = (row: Record<string, unknown>): OrganizationMembership => 
 const mapWorkspaceError = (message: string) => {
   if (message.includes("Could not find the table 'public.organizations'")) {
     return 'Brakuje tabel Supabase. Uruchom migrację z katalogu supabase/migrations w SQL Editor projektu.'
+  }
+
+  if (message.includes('Could not find the function public.create_initial_workspace')) {
+    return 'Brakuje funkcji tworzenia organizacji. Uruchom najnowszą migrację Supabase z katalogu supabase/migrations.'
+  }
+
+  if (message.includes('violates row-level security policy')) {
+    return 'Operacja została zatrzymana przez zabezpieczenia RLS. Uruchom najnowszą migrację Supabase i spróbuj ponownie.'
   }
 
   return message
@@ -118,55 +131,27 @@ export function useOrganizationContext(userId: string | undefined): Organization
       setIsLoading(true)
       setError(null)
 
-      const organizationResult = await supabase
-        .from('organizations')
-        .insert({ name: input.organizationName })
-        .select('*')
+      const workspaceResult = await supabase
+        .rpc('create_initial_workspace', {
+          location_name: input.locationName,
+          organization_name: input.organizationName,
+        })
         .single()
 
-      if (organizationResult.error || !organizationResult.data) {
+      if (workspaceResult.error || !workspaceResult.data) {
         setIsLoading(false)
         setError(
           mapWorkspaceError(
-            organizationResult.error?.message ?? 'Nie udało się utworzyć organizacji.',
+            workspaceResult.error?.message ?? 'Nie udało się utworzyć organizacji.',
           ),
         )
         return
       }
 
-      const organization = mapOrganization(organizationResult.data)
+      const workspace = workspaceResult.data as InitialWorkspaceResult
 
-      const membershipResult = await supabase.from('organization_memberships').insert({
-        organization_id: organization.id,
-        role: 'owner',
-        user_id: userId,
-      })
-
-      if (membershipResult.error) {
-        setIsLoading(false)
-        setError(mapWorkspaceError(membershipResult.error.message))
-        return
-      }
-
-      const locationResult = await supabase
-        .from('locations')
-        .insert({
-          name: input.locationName,
-          organization_id: organization.id,
-        })
-        .select('*')
-        .single()
-
-      if (locationResult.error || !locationResult.data) {
-        setIsLoading(false)
-        setError(
-          mapWorkspaceError(locationResult.error?.message ?? 'Nie udało się utworzyć lokalizacji.'),
-        )
-        return
-      }
-
-      setSelectedOrganizationId(organization.id)
-      setSelectedLocationId(locationResult.data.id as string)
+      setSelectedOrganizationId(workspace.organization_id)
+      setSelectedLocationId(workspace.location_id)
       await refresh()
     },
     [refresh, userId],
