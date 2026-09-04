@@ -12,15 +12,15 @@ const navigationItems = [
 ]
 
 const todaysSignals = [
-  { label: 'Najblizsze wydania', value: '3', tone: 'info' },
-  { label: 'Zadania opoznione', value: '2', tone: 'danger' },
-  { label: 'Braki produktow', value: '5', tone: 'warning' },
+  { label: 'Najbliższe wydania', value: '3', tone: 'info' },
+  { label: 'Zadania opóźnione', value: '2', tone: 'danger' },
+  { label: 'Braki produktów', value: '5', tone: 'warning' },
   { label: 'Stanowiska aktywne', value: '6', tone: 'success' },
 ]
 
 const stationLoad = [
   { station: 'Zimna kuchnia', load: 72 },
-  { station: 'Ciepla kuchnia', load: 88 },
+  { station: 'Ciepła kuchnia', load: 88 },
   { station: 'Cukiernia', load: 54 },
   { station: 'Pakowanie', load: 64 },
 ]
@@ -30,10 +30,10 @@ function TodayPage() {
     <div className="screen-stack">
       <section className="toolbar-band" aria-labelledby="today-heading">
         <div>
-          <p className="eyebrow">Piatek, 4 wrzesnia 2026</p>
+          <p className="eyebrow">Piątek, 4 września 2026</p>
           <h1 id="today-heading">Dzisiaj</h1>
           <p className="page-lead">
-            Wspolny podglad wydan, zadan, brakow i obciazenia stanowisk dla biezacego dnia
+            Wspólny podgląd wydań, zadań, braków i obciążenia stanowisk dla bieżącego dnia
             produkcyjnego.
           </p>
         </div>
@@ -42,7 +42,7 @@ function TodayPage() {
         </button>
       </section>
 
-      <section className="metrics-grid" aria-label="Najwazniejsze sygnaly">
+      <section className="metrics-grid" aria-label="Najważniejsze sygnały">
         {todaysSignals.map((signal) => (
           <article className={`metric-card metric-card--${signal.tone}`} key={signal.label}>
             <span>{signal.label}</span>
@@ -54,13 +54,13 @@ function TodayPage() {
       <section className="content-grid">
         <article className="panel">
           <div className="panel-header">
-            <h2>Najblizsze wydania</h2>
+            <h2>Najbliższe wydania</h2>
             <span className="status-pill status-pill--info">Plan aktywny</span>
           </div>
           <div className="work-list">
             <div className="work-row">
               <strong>07:30</strong>
-              <span>Sniadanie hotelowe, 118 osob</span>
+              <span>Śniadanie hotelowe, 118 osób</span>
               <em>Bufet</em>
             </div>
             <div className="work-row">
@@ -78,7 +78,7 @@ function TodayPage() {
 
         <article className="panel">
           <div className="panel-header">
-            <h2>Obciazenie stanowisk</h2>
+            <h2>Obciążenie stanowisk</h2>
             <span className="status-pill status-pill--warning">Wymaga uwagi</span>
           </div>
           <div className="load-list">
@@ -107,7 +107,7 @@ function PlaceholderPage({ title }: { title: string }) {
         <p className="eyebrow">Etap 1</p>
         <h1 id="placeholder-heading">{title}</h1>
         <p className="page-lead">
-          Ten obszar ma przygotowana trase i miejsce w nawigacji. Szczegolowa logika domenowa
+          Ten obszar ma przygotowaną trasę i miejsce w nawigacji. Szczegółowa logika domenowa
           zostanie dodana w kolejnych etapach.
         </p>
       </div>
@@ -120,7 +120,7 @@ export function App() {
 
   return (
     <div className="app-shell">
-      <aside className="sidebar" aria-label="Glowne obszary">
+      <aside className="sidebar" aria-label="Główne obszary">
         <div className="brand">
           <span aria-hidden="true">KP</span>
           <div>
@@ -145,7 +145,7 @@ export function App() {
       <main className="main-content">
         <header className="context-bar">
           <span>Lokalizacja: Kuchnia testowa</span>
-          <span>Dzien produkcyjny: 04.09.2026</span>
+          <span>Dzień produkcyjny: 04.09.2026</span>
         </header>
         <Routes>
           <Route path="/" element={<TodayPage />} />

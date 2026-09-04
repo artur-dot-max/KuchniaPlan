@@ -31,18 +31,18 @@ npm run build
 npm run test:e2e
 ```
 
-## Zmienne srodowiskowe
+## Zmienne środowiskowe
 
-Skopiuj `.env.example` do `.env.local` i uzupelnij publiczny URL oraz klucz anon
-Supabase. Klucza administracyjnego Supabase nie wolno umieszczac w aplikacji ani
+Skopiuj `.env.example` do `.env.local` i uzupełnij publiczny URL oraz klucz anon
+Supabase. Klucza administracyjnego Supabase nie wolno umieszczać w aplikacji ani
 w repozytorium.
 
 ## Zakres aktualnego fundamentu
 
-- glowna nawigacja: Dzisiaj, Planowanie, Produkcja, Receptury, Produkty, Zakupy,
+- główna nawigacja: Dzisiaj, Planowanie, Produkcja, Receptury, Produkty, Zakupy,
   Raporty, Ustawienia;
 - ekran Dzisiaj jako pierwszy widok operacyjny;
 - podstawowy system wizualny dla pracy na komputerze, tablecie i telefonie;
 - konfiguracja PWA z manifestem i automatyczna aktualizacja service workera;
-- miejsce na klienta Supabase i lokalna baza IndexedDB dla przyszlego trybu
+- miejsce na klienta Supabase i lokalna baza IndexedDB dla przyszłego trybu
   offline.

@@ -14,6 +14,6 @@ describe('App', () => {
 
     expect(screen.getByRole('heading', { name: 'Dzisiaj' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Dodaj zapotrzebowanie' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Najblizsze wydania' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Najbliższe wydania' })).toBeInTheDocument()
   })
 })
