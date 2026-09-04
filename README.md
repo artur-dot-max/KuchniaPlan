@@ -46,3 +46,10 @@ w repozytorium.
 - konfiguracja PWA z manifestem i automatyczna aktualizacja service workera;
 - miejsce na klienta Supabase i lokalna baza IndexedDB dla przyszłego trybu
   offline.
+
+## Etap 2
+
+Pierwsza migracja Supabase znajduje się w
+`supabase/migrations/20260904212000_create_access_foundation.sql`. Definiuje
+organizacje, lokalizacje, profile użytkowników, członkostwa i podstawowe
+polityki RLS oparte na `auth.uid()` oraz aktywnym członkostwie w organizacji.
