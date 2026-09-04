@@ -3,17 +3,19 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 
 import { App } from './App'
+import { AuthProvider } from './features/auth/AuthProvider'
 
 describe('App', () => {
-  it('renders the operational today screen', () => {
+  it('shows Supabase setup notice when environment is not configured', () => {
     render(
       <MemoryRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { name: 'Dzisiaj' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Dodaj zapotrzebowanie' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Najbliższe wydania' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Połącz Supabase' })).toBeInTheDocument()
+    expect(screen.getByText(/faoisqiulgowkqmqjumc/)).toBeInTheDocument()
   })
 })

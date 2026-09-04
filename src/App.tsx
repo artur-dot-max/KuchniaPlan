@@ -1,5 +1,11 @@
 import { NavLink, Route, Routes } from 'react-router-dom'
 
+import { AuthPage } from './features/auth/AuthPage'
+import { SupabaseSetupNotice } from './features/auth/SupabaseSetupNotice'
+import { useAuth } from './features/auth/auth-context'
+import { useOrganizationContext } from './features/organization/useOrganizationContext'
+import { WorkspaceSetup } from './features/organization/WorkspaceSetup'
+
 const navigationItems = [
   { label: 'Dzisiaj', path: '/' },
   { label: 'Planowanie', path: '/planowanie' },
@@ -115,8 +121,36 @@ function PlaceholderPage({ title }: { title: string }) {
   )
 }
 
-export function App() {
+function LoadingScreen() {
+  return (
+    <main className="auth-layout">
+      <section className="auth-panel" aria-live="polite">
+        <p className="eyebrow">KuchniaPlan</p>
+        <h1>Sprawdzanie sesji</h1>
+        <p className="page-lead">Ładuję informacje o zalogowanym użytkowniku.</p>
+      </section>
+    </main>
+  )
+}
+
+function ProtectedAppShell() {
+  const { signOut, user } = useAuth()
+  const organizationContext = useOrganizationContext(user?.id)
   const placeholderRoutes = navigationItems.slice(1)
+
+  if (organizationContext.isLoading && organizationContext.organizations.length === 0) {
+    return <LoadingScreen />
+  }
+
+  if (organizationContext.organizations.length === 0) {
+    return (
+      <WorkspaceSetup
+        error={organizationContext.error}
+        isLoading={organizationContext.isLoading}
+        onCreate={organizationContext.createWorkspace}
+      />
+    )
+  }
 
   return (
     <div className="app-shell">
@@ -144,8 +178,38 @@ export function App() {
 
       <main className="main-content">
         <header className="context-bar">
-          <span>Lokalizacja: Kuchnia testowa</span>
+          <label>
+            Organizacja
+            <select
+              onChange={(event) =>
+                organizationContext.setSelectedOrganizationId(event.target.value)
+              }
+              value={organizationContext.selectedOrganization?.id ?? ''}
+            >
+              {organizationContext.organizations.map((organization) => (
+                <option key={organization.id} value={organization.id}>
+                  {organization.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Lokalizacja
+            <select
+              onChange={(event) => organizationContext.setSelectedLocationId(event.target.value)}
+              value={organizationContext.selectedLocation?.id ?? ''}
+            >
+              {organizationContext.locations.map((location) => (
+                <option key={location.id} value={location.id}>
+                  {location.name}
+                </option>
+              ))}
+            </select>
+          </label>
           <span>Dzień produkcyjny: 04.09.2026</span>
+          <button className="text-action context-action" onClick={signOut} type="button">
+            Wyloguj
+          </button>
         </header>
         <Routes>
           <Route path="/" element={<TodayPage />} />
@@ -160,6 +224,24 @@ export function App() {
       </main>
     </div>
   )
+}
+
+export function App() {
+  const { status } = useAuth()
+
+  if (status === 'unconfigured') {
+    return <SupabaseSetupNotice />
+  }
+
+  if (status === 'checking') {
+    return <LoadingScreen />
+  }
+
+  if (status === 'anonymous') {
+    return <AuthPage />
+  }
+
+  return <ProtectedAppShell />
 }
 
 export default App

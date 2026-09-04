@@ -37,6 +37,12 @@ Skopiuj `.env.example` do `.env.local` i uzupełnij publiczny URL oraz klucz ano
 Supabase. Klucza administracyjnego Supabase nie wolno umieszczać w aplikacji ani
 w repozytorium.
 
+Projekt Supabase:
+`https://supabase.com/dashboard/project/faoisqiulgowkqmqjumc`
+
+Publiczny adres API:
+`https://faoisqiulgowkqmqjumc.supabase.co`
+
 ## Zakres aktualnego fundamentu
 
 - główna nawigacja: Dzisiaj, Planowanie, Produkcja, Receptury, Produkty, Zakupy,
@@ -53,3 +59,7 @@ Pierwsza migracja Supabase znajduje się w
 `supabase/migrations/20260904212000_create_access_foundation.sql`. Definiuje
 organizacje, lokalizacje, profile użytkowników, członkostwa i podstawowe
 polityki RLS oparte na `auth.uid()` oraz aktywnym członkostwie w organizacji.
+
+Po ustawieniu `.env.local` i zastosowaniu migracji aplikacja pokazuje ekran
+logowania. Po pierwszym logowaniu użytkownik może utworzyć organizację i
+lokalizację, a system zapisze go jako właściciela organizacji.

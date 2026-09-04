@@ -128,6 +128,25 @@ nav {
   padding: 12px 32px;
 }
 
+.context-bar label {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.context-bar select {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--heading);
+  min-height: 38px;
+  padding: 0 10px;
+}
+
+.context-action {
+  min-height: 38px;
+}
+
 .screen-stack {
   display: grid;
   gap: 24px;
@@ -187,6 +206,74 @@ h2 {
 
 .primary-action:hover {
   background: var(--accent-strong);
+}
+
+.primary-action:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.text-action {
+  background: transparent;
+  border: 0;
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 800;
+  padding: 0;
+}
+
+.auth-layout {
+  align-items: center;
+  display: grid;
+  min-height: 100svh;
+  padding: 24px;
+}
+
+.auth-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 24px;
+  margin: 0 auto;
+  max-width: 520px;
+  padding: 32px;
+  width: 100%;
+}
+
+.form-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.form-stack label {
+  color: var(--heading);
+  display: grid;
+  font-weight: 800;
+  gap: 8px;
+}
+
+.form-stack input {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--heading);
+  min-height: 48px;
+  padding: 0 12px;
+}
+
+.form-message {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.code-block {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--heading);
+  overflow-x: auto;
+  padding: 16px;
 }
 
 .metrics-grid,
