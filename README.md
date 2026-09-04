@@ -67,3 +67,9 @@ lokalizację, a system zapisze go jako właściciela organizacji.
 Migracja `20260904214500_create_initial_workspace_rpc.sql` dodaje funkcję RPC,
 która tworzy pierwszą organizację, członkostwo właściciela i lokalizację w jednej
 transakcji. Jest potrzebna do poprawnego startu przy włączonym RLS.
+
+## Etap 3
+
+Migracja `20260904221000_create_products_foundation.sql` dodaje fundament kart
+produktów: jednostki, alergeny, dostawców, produkty, przeliczniki, opakowania i
+historię cen. Tabele są izolowane przez `organization_id` i polityki RLS.
