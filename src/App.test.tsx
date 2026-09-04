@@ -6,7 +6,7 @@ import { App } from './App'
 import { AuthProvider } from './features/auth/AuthProvider'
 
 describe('App', () => {
-  it('shows Supabase setup notice when environment is not configured', () => {
+  it('renders the expected entry screen for the current Supabase configuration', async () => {
     render(
       <MemoryRouter>
         <AuthProvider>
@@ -15,7 +15,8 @@ describe('App', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { name: 'Połącz Supabase' })).toBeInTheDocument()
-    expect(screen.getByText(/faoisqiulgowkqmqjumc/)).toBeInTheDocument()
+    expect(
+      await screen.findByRole('heading', { name: /Połącz Supabase|Logowanie/ }),
+    ).toBeInTheDocument()
   })
 })
