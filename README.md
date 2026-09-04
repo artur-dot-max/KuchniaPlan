@@ -76,4 +76,5 @@ historię cen. Tabele są izolowane przez `organization_id` i polityki RLS.
 
 Ekran `Produkty` ma oddzielony codzienny formularz produktu od widoku
 `Słowniki`. W słownikach lista produktów jest ukryta, a jednostki i dostawcy są
-zarządzani w osobnych zakładkach.
+zarządzani w osobnych zakładkach. Zakładka dostawców rozdziela listę i formularz
+dodawania na dwa osobne panele.

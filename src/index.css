@@ -354,8 +354,13 @@ h2 {
 .dictionary-screen {
   display: grid;
   gap: 16px;
-  max-width: 760px;
   padding: 0 32px 32px;
+}
+
+.dictionary-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) 360px;
 }
 
 .metric-card,
@@ -563,6 +568,10 @@ meter {
 
   .data-row--head {
     display: none;
+  }
+
+  .dictionary-grid {
+    grid-template-columns: 1fr;
   }
 
   .work-row {

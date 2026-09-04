@@ -337,37 +337,43 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
               </form>
             </article>
           ) : (
-            <article className="panel">
-              <div className="panel-header">
-                <h2>Dostawcy</h2>
-                <span className="status-pill status-pill--info">{catalog.suppliers.length}</span>
-              </div>
-              <div className="dictionary-list" aria-label="Zdefiniowani dostawcy">
-                {catalog.suppliers.map((supplier) => (
-                  <div className="dictionary-row" key={supplier.id}>
-                    <strong>{supplier.name}</strong>
-                    <span>Dostępny w kartach produktów</span>
-                  </div>
-                ))}
-                {catalog.suppliers.length === 0 ? (
-                  <p className="empty-state">Dostawców dodajesz tylko wtedy, gdy są potrzebni.</p>
-                ) : null}
-              </div>
-              <form className="form-stack compact-form" onSubmit={handleAddSupplier}>
-                <label>
-                  Nazwa
-                  <input
-                    onChange={(event) => setSupplierName(event.target.value)}
-                    placeholder="Dostawca warzyw"
-                    required
-                    value={supplierName}
-                  />
-                </label>
-                <button className="primary-action" disabled={catalog.isLoading} type="submit">
-                  Dodaj dostawcę
-                </button>
-              </form>
-            </article>
+            <div className="dictionary-grid">
+              <article className="panel">
+                <div className="panel-header">
+                  <h2>Lista dostawców</h2>
+                  <span className="status-pill status-pill--info">{catalog.suppliers.length}</span>
+                </div>
+                <div className="dictionary-list" aria-label="Lista dostawców">
+                  {catalog.suppliers.map((supplier) => (
+                    <div className="dictionary-row" key={supplier.id}>
+                      <strong>{supplier.name}</strong>
+                      <span>Dostępny w kartach produktów</span>
+                    </div>
+                  ))}
+                  {catalog.suppliers.length === 0 ? (
+                    <p className="empty-state">Dostawców dodajesz tylko wtedy, gdy są potrzebni.</p>
+                  ) : null}
+                </div>
+              </article>
+
+              <article className="panel">
+                <h2>Dodaj dostawcę</h2>
+                <form className="form-stack compact-form" onSubmit={handleAddSupplier}>
+                  <label>
+                    Nazwa
+                    <input
+                      onChange={(event) => setSupplierName(event.target.value)}
+                      placeholder="Dostawca warzyw"
+                      required
+                      value={supplierName}
+                    />
+                  </label>
+                  <button className="primary-action" disabled={catalog.isLoading} type="submit">
+                    Dodaj dostawcę
+                  </button>
+                </form>
+              </article>
+            </div>
           )}
         </section>
       )}
