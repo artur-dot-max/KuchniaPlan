@@ -5,6 +5,14 @@ import { supabase } from '../../lib/supabase'
 
 type AuthMode = 'sign-in' | 'sign-up'
 
+const mapAuthError = (message: string) => {
+  if (message.toLowerCase().includes('jwt issued at future')) {
+    return 'Token logowania ma czas z przyszłości. Sprawdź datę i godzinę w systemie, włącz automatyczną synchronizację czasu, a potem zaloguj się ponownie.'
+  }
+
+  return message
+}
+
 export function AuthPage() {
   const [email, setEmail] = useState('')
   const [mode, setMode] = useState<AuthMode>('sign-in')
@@ -39,7 +47,7 @@ export function AuthPage() {
     setIsSubmitting(false)
 
     if (result.error) {
-      setMessage(result.error.message)
+      setMessage(mapAuthError(result.error.message))
       return
     }
 
