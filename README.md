@@ -74,5 +74,6 @@ Migracja `20260904221000_create_products_foundation.sql` dodaje fundament kart
 produktów: jednostki, alergeny, dostawców, produkty, przeliczniki, opakowania i
 historię cen. Tabele są izolowane przez `organization_id` i polityki RLS.
 
-Ekran `Produkty` ma oddzielony codzienny formularz produktu od panelu
-`Słowniki`, gdzie zarządza się wspólnymi jednostkami i dostawcami organizacji.
+Ekran `Produkty` ma oddzielony codzienny formularz produktu od widoku
+`Słowniki`. W słownikach lista produktów jest ukryta, a jednostki i dostawcy są
+zarządzani w osobnych zakładkach.

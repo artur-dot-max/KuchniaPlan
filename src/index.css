@@ -321,6 +321,14 @@ h2 {
   padding: 0 32px;
 }
 
+.section-tabs--nested {
+  padding: 0;
+}
+
+.page-status {
+  padding: 0 32px;
+}
+
 .tab-button {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -341,6 +349,13 @@ h2 {
 .side-stack {
   display: grid;
   gap: 16px;
+}
+
+.dictionary-screen {
+  display: grid;
+  gap: 16px;
+  max-width: 760px;
+  padding: 0 32px 32px;
 }
 
 .metric-card,

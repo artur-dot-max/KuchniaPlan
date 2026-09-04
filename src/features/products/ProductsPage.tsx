@@ -18,6 +18,7 @@ const unitKindLabels: Record<UnitKind, string> = {
 export function ProductsPage({ organizationId }: ProductsPageProps) {
   const catalog = useProductsCatalog(organizationId)
   const [activePanel, setActivePanel] = useState<'product' | 'dictionaries'>('product')
+  const [activeDictionary, setActiveDictionary] = useState<'units' | 'suppliers'>('units')
   const [productName, setProductName] = useState('')
   const [category, setCategory] = useState('Surowce')
   const [baseUnitId, setBaseUnitId] = useState('')
@@ -120,45 +121,47 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
         </button>
       </div>
 
-      <section className="content-grid content-grid--wide">
-        <article className="panel">
-          <div className="panel-header">
-            <h2>Lista produktów</h2>
-            <span className="status-pill status-pill--info">{catalog.products.length} pozycji</span>
-          </div>
+      {catalog.isLoading ? <p className="page-lead page-status">Ładuję katalog...</p> : null}
+      {catalog.error ? <p className="form-message page-status">{catalog.error}</p> : null}
+      {localError ? <p className="form-message page-status">{localError}</p> : null}
 
-          {catalog.isLoading ? <p className="page-lead">Ładuję katalog...</p> : null}
-          {catalog.error ? <p className="form-message">{catalog.error}</p> : null}
-          {localError ? <p className="form-message">{localError}</p> : null}
-
-          <div className="data-table" role="table" aria-label="Produkty">
-            <div className="data-row data-row--head" role="row">
-              <span role="columnheader">Nazwa</span>
-              <span role="columnheader">Kategoria</span>
-              <span role="columnheader">Jednostka</span>
-              <span role="columnheader">Straty</span>
+      {activePanel === 'product' ? (
+        <section className="content-grid content-grid--wide">
+          <article className="panel">
+            <div className="panel-header">
+              <h2>Lista produktów</h2>
+              <span className="status-pill status-pill--info">
+                {catalog.products.length} pozycji
+              </span>
             </div>
-            {catalog.products.map((product) => {
-              const unit = catalog.units.find((item) => item.id === product.baseUnitId)
 
-              return (
-                <div className="data-row" key={product.id} role="row">
-                  <strong role="cell">{product.name}</strong>
-                  <span role="cell">{product.category}</span>
-                  <span role="cell">{unit?.symbol ?? 'brak'}</span>
-                  <span role="cell">
-                    {product.initialLossPercent}% / {product.thermalLossPercent}%
-                  </span>
-                </div>
-              )
-            })}
-            {catalog.products.length === 0 && !catalog.isLoading ? (
-              <p className="empty-state">Brak produktów w wybranej organizacji.</p>
-            ) : null}
-          </div>
-        </article>
+            <div className="data-table" role="table" aria-label="Produkty">
+              <div className="data-row data-row--head" role="row">
+                <span role="columnheader">Nazwa</span>
+                <span role="columnheader">Kategoria</span>
+                <span role="columnheader">Jednostka</span>
+                <span role="columnheader">Straty</span>
+              </div>
+              {catalog.products.map((product) => {
+                const unit = catalog.units.find((item) => item.id === product.baseUnitId)
 
-        {activePanel === 'product' ? (
+                return (
+                  <div className="data-row" key={product.id} role="row">
+                    <strong role="cell">{product.name}</strong>
+                    <span role="cell">{product.category}</span>
+                    <span role="cell">{unit?.symbol ?? 'brak'}</span>
+                    <span role="cell">
+                      {product.initialLossPercent}% / {product.thermalLossPercent}%
+                    </span>
+                  </div>
+                )
+              })}
+              {catalog.products.length === 0 && !catalog.isLoading ? (
+                <p className="empty-state">Brak produktów w wybranej organizacji.</p>
+              ) : null}
+            </div>
+          </article>
+
           <article className="panel">
             <h2>Dodaj produkt</h2>
             <form className="form-stack compact-form" onSubmit={handleAddProduct}>
@@ -253,8 +256,31 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
               </button>
             </form>
           </article>
-        ) : (
-          <aside className="side-stack">
+        </section>
+      ) : (
+        <section className="dictionary-screen">
+          <div className="section-tabs section-tabs--nested" role="tablist" aria-label="Słowniki">
+            <button
+              aria-selected={activeDictionary === 'units'}
+              className={activeDictionary === 'units' ? 'tab-button active' : 'tab-button'}
+              onClick={() => setActiveDictionary('units')}
+              role="tab"
+              type="button"
+            >
+              Jednostki
+            </button>
+            <button
+              aria-selected={activeDictionary === 'suppliers'}
+              className={activeDictionary === 'suppliers' ? 'tab-button active' : 'tab-button'}
+              onClick={() => setActiveDictionary('suppliers')}
+              role="tab"
+              type="button"
+            >
+              Dostawcy
+            </button>
+          </div>
+
+          {activeDictionary === 'units' ? (
             <article className="panel">
               <div className="panel-header">
                 <h2>Jednostki</h2>
@@ -310,7 +336,7 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
                 </button>
               </form>
             </article>
-
+          ) : (
             <article className="panel">
               <div className="panel-header">
                 <h2>Dostawcy</h2>
@@ -342,9 +368,9 @@ export function ProductsPage({ organizationId }: ProductsPageProps) {
                 </button>
               </form>
             </article>
-          </aside>
-        )}
-      </section>
+          )}
+        </section>
+      )}
     </div>
   )
 }
