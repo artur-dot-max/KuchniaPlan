@@ -73,3 +73,6 @@ transakcji. Jest potrzebna do poprawnego startu przy włączonym RLS.
 Migracja `20260904221000_create_products_foundation.sql` dodaje fundament kart
 produktów: jednostki, alergeny, dostawców, produkty, przeliczniki, opakowania i
 historię cen. Tabele są izolowane przez `organization_id` i polityki RLS.
+
+Ekran `Produkty` pozwala dodać pierwsze jednostki, dostawców i podstawowe karty
+produktów dla wybranej organizacji.

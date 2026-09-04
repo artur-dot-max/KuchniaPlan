@@ -262,6 +262,25 @@ h2 {
   padding: 0 12px;
 }
 
+.form-stack select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--heading);
+  min-height: 48px;
+  padding: 0 12px;
+}
+
+.compact-form {
+  margin-top: 16px;
+}
+
+.form-pair {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .form-message {
   color: var(--danger);
   font-weight: 700;
@@ -290,6 +309,15 @@ h2 {
 .content-grid {
   grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
   padding-bottom: 32px;
+}
+
+.content-grid--wide {
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.side-stack {
+  display: grid;
+  gap: 16px;
 }
 
 .metric-card,
@@ -367,6 +395,42 @@ h2 {
   gap: 12px;
 }
 
+.data-table {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.data-row {
+  align-items: center;
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(160px, 1.4fr) minmax(120px, 0.9fr) minmax(90px, 0.5fr) minmax(
+      100px,
+      0.6fr
+    );
+  min-height: 52px;
+  padding: 10px 12px;
+}
+
+.data-row:first-child {
+  border-top: 0;
+}
+
+.data-row--head {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.empty-state {
+  color: var(--text-muted);
+  padding: 18px 12px;
+}
+
 .work-row {
   align-items: center;
   border: 1px solid var(--border);
@@ -427,6 +491,14 @@ meter {
   .content-grid {
     grid-template-columns: 1fr;
     padding-inline: 20px;
+  }
+
+  .data-row {
+    grid-template-columns: 1fr;
+  }
+
+  .data-row--head {
+    display: none;
   }
 
   .work-row {

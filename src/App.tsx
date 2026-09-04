@@ -5,6 +5,7 @@ import { SupabaseSetupNotice } from './features/auth/SupabaseSetupNotice'
 import { useAuth } from './features/auth/auth-context'
 import { useOrganizationContext } from './features/organization/useOrganizationContext'
 import { WorkspaceSetup } from './features/organization/WorkspaceSetup'
+import { ProductsPage } from './features/products/ProductsPage'
 
 const navigationItems = [
   { label: 'Dzisiaj', path: '/' },
@@ -136,7 +137,9 @@ function LoadingScreen() {
 function ProtectedAppShell() {
   const { signOut, user } = useAuth()
   const organizationContext = useOrganizationContext(user?.id)
-  const placeholderRoutes = navigationItems.slice(1)
+  const placeholderRoutes = navigationItems.filter(
+    (item) => item.path !== '/' && item.path !== '/produkty',
+  )
 
   if (organizationContext.isLoading && organizationContext.organizations.length === 0) {
     return <LoadingScreen />
@@ -213,6 +216,12 @@ function ProtectedAppShell() {
         </header>
         <Routes>
           <Route path="/" element={<TodayPage />} />
+          <Route
+            path="/produkty"
+            element={
+              <ProductsPage organizationId={organizationContext.selectedOrganization?.id ?? ''} />
+            }
+          />
           {placeholderRoutes.map((route) => (
             <Route
               element={<PlaceholderPage title={route.label} />}
