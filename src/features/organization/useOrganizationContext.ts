@@ -47,6 +47,14 @@ const mapMembership = (row: Record<string, unknown>): OrganizationMembership => 
   userId: row.user_id as string,
 })
 
+const mapWorkspaceError = (message: string) => {
+  if (message.includes("Could not find the table 'public.organizations'")) {
+    return 'Brakuje tabel Supabase. Uruchom migrację z katalogu supabase/migrations w SQL Editor projektu.'
+  }
+
+  return message
+}
+
 export function useOrganizationContext(userId: string | undefined): OrganizationContextState {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -76,7 +84,7 @@ export function useOrganizationContext(userId: string | undefined): Organization
       organizationsResult.error ?? locationsResult.error ?? membershipsResult.error ?? null
 
     if (firstError) {
-      setError(firstError.message)
+      setError(mapWorkspaceError(firstError.message))
       return
     }
 
@@ -118,7 +126,11 @@ export function useOrganizationContext(userId: string | undefined): Organization
 
       if (organizationResult.error || !organizationResult.data) {
         setIsLoading(false)
-        setError(organizationResult.error?.message ?? 'Nie udało się utworzyć organizacji.')
+        setError(
+          mapWorkspaceError(
+            organizationResult.error?.message ?? 'Nie udało się utworzyć organizacji.',
+          ),
+        )
         return
       }
 
@@ -132,7 +144,7 @@ export function useOrganizationContext(userId: string | undefined): Organization
 
       if (membershipResult.error) {
         setIsLoading(false)
-        setError(membershipResult.error.message)
+        setError(mapWorkspaceError(membershipResult.error.message))
         return
       }
 
@@ -147,7 +159,9 @@ export function useOrganizationContext(userId: string | undefined): Organization
 
       if (locationResult.error || !locationResult.data) {
         setIsLoading(false)
-        setError(locationResult.error?.message ?? 'Nie udało się utworzyć lokalizacji.')
+        setError(
+          mapWorkspaceError(locationResult.error?.message ?? 'Nie udało się utworzyć lokalizacji.'),
+        )
         return
       }
 
