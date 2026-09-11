@@ -54,6 +54,14 @@ export type Product = {
   archivedAt: string | null
 }
 
+export type ProductAllergen = {
+  allergenId: string
+  createdAt: string
+  createdBy: string | null
+  organizationId: string
+  productId: string
+}
+
 export type ProductUnitConversion = {
   id: string
   organizationId: string

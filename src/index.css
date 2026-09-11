@@ -208,6 +208,28 @@ h2 {
   background: var(--accent-strong);
 }
 
+.secondary-action {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--heading);
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 48px;
+  padding: 0 18px;
+}
+
+.danger-action {
+  background: #fff1f0;
+  border: 1px solid #ffd0cc;
+  border-radius: 8px;
+  color: var(--danger);
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 48px;
+  padding: 0 18px;
+}
+
 .primary-action:disabled {
   cursor: wait;
   opacity: 0.7;
@@ -279,6 +301,39 @@ h2 {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.button-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.checkbox-group {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 14px;
+}
+
+.checkbox-group legend {
+  color: var(--heading);
+  font-weight: 800;
+  padding: 0 6px;
+}
+
+.checkbox-field {
+  align-items: center;
+  display: flex;
+  font-weight: 700;
+  gap: 10px;
+}
+
+.checkbox-field input {
+  min-height: auto;
+  width: 18px;
 }
 
 .form-message {
@@ -467,6 +522,13 @@ h2 {
   font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
+}
+
+.data-actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
 }
 
 .empty-state {

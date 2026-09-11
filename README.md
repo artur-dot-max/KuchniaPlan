@@ -79,3 +79,6 @@ Ekran `Produkty` ma oddzielony codzienny formularz produktu od widoku
 zarządzani w osobnych zakładkach. Zakładka dostawców rozdziela listę i formularz
 dodawania na dwa osobne panele o równej szerokości. Zakładka jednostek działa tak
 samo.
+
+Karta produktu pozwala edytować podstawowe pola, zmienić aktywność, przypisać
+alergeny i zarchiwizować produkt zamiast usuwać go trwale.

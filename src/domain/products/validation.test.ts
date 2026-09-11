@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { productSchema, unitConversionSchema, unitSchema } from './validation'
+import {
+  allergenSchema,
+  productSchema,
+  unitConversionSchema,
+  unitSchema,
+  updateProductSchema,
+} from './validation'
 
 const organizationId = '0a5f5b7d-74d8-4565-a7a1-705a2d7e0dd2'
 const unitId = 'eeb8ee8f-a1b8-466a-b108-cd9f471339c7'
@@ -41,5 +47,30 @@ describe('product validation', () => {
     })
 
     expect(result.success).toBe(false)
+  })
+
+  it('accepts allergens with optional codes', () => {
+    const result = allergenSchema.safeParse({
+      code: 'A1',
+      name: 'Gluten',
+      organizationId,
+    })
+
+    expect(result.success).toBe(true)
+  })
+
+  it('accepts product activity changes', () => {
+    const result = updateProductSchema.safeParse({
+      baseUnitId: unitId,
+      category: 'Mięso',
+      initialLossPercent: 8,
+      isActive: false,
+      name: 'Pierś z kurczaka',
+      organizationId,
+      productId: 'e756d528-4f94-48a3-8351-8e4c31f3d729',
+      thermalLossPercent: 20,
+    })
+
+    expect(result.success).toBe(true)
   })
 })

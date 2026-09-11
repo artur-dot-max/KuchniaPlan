@@ -40,6 +40,21 @@ export const supplierSchema = z.object({
     .optional(),
 })
 
+export const allergenSchema = z.object({
+  code: z
+    .string()
+    .trim()
+    .max(32, 'Kod alergenu nie może mieć więcej niż 32 znaki.')
+    .nullable()
+    .optional(),
+  name: z
+    .string()
+    .trim()
+    .min(2, 'Nazwa alergenu musi mieć co najmniej 2 znaki.')
+    .max(120, 'Nazwa alergenu nie może mieć więcej niż 120 znaków.'),
+  organizationId: z.uuid('Nieprawidłowy identyfikator firmy.'),
+})
+
 export const productSchema = z.object({
   baseUnitId: z.uuid('Wybierz jednostkę bazową.'),
   category: z
@@ -57,6 +72,11 @@ export const productSchema = z.object({
   purchaseUnitId: z.uuid('Wybierz jednostkę zakupu.').nullable().optional(),
   supplierId: z.uuid('Wybierz dostawcę.').nullable().optional(),
   thermalLossPercent: percentSchema.default(0),
+})
+
+export const updateProductSchema = productSchema.extend({
+  isActive: z.boolean(),
+  productId: z.uuid('Nieprawidłowy identyfikator produktu.'),
 })
 
 export const productPackageSchema = z.object({
@@ -96,8 +116,10 @@ export const unitConversionSchema = z
   })
 
 export type ProductInput = z.infer<typeof productSchema>
+export type AllergenInput = z.infer<typeof allergenSchema>
 export type ProductPackageInput = z.infer<typeof productPackageSchema>
 export type ProductPriceInput = z.infer<typeof productPriceSchema>
 export type SupplierInput = z.infer<typeof supplierSchema>
 export type UnitConversionInput = z.infer<typeof unitConversionSchema>
 export type UnitInput = z.infer<typeof unitSchema>
+export type UpdateProductInput = z.infer<typeof updateProductSchema>
